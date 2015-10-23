@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webpack</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="webpack.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+<div class=logo style="zoom: 3">
+<ul class=cube-inner>
+<li class=front></li>
+<li class=back></li>
+<li class=right></li>
+<li class=left></li>
+<li class=top></li>
+<li class=bottom></li>
+</ul>
+<ul class=cube>
+<li class=front></li>
+<li class=back></li>
+<li class=right></li>
+<li class=left></li>
+<li class=top></li>
+<li class=bottom></li>
+<li class=floor></li>
+</ul>
+</div>
+
+# Webpack
+
+---
+
+class: center, middle
+
+.float75[
+  ![byteclub](mascotte.png)
+]
+.float25[
+  ![t8g](tom_400x400.png)
+  ### @t8g
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## C'est quoi ?
+]
+.right-column[
+#### "Webpack takes modules with dependencies and generates static assets representing those modules."
+- require / import sources
+
+- convertit et preprocesse
+
+- crée des bundles qui contiennent tout
+
+- un environnement de développement
+
+- et bien d'autres choses ...
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## Killer app
+]
+.right-column[
+app/index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>What an app dude !</title>
+</head>
+<body>
+  <h1>Killer app</h1>
+  <script src="bundle.js"></script>
+</body>
+</html>
+```
+
+app/index.js
+```js
+window.alert("Oh yeah !")
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## Killer app
+  ## Configuration
+]
+.right-column[
+webpack.config.js
+```js
+module.exports = {
+  context: __dirname + '/app',
+  entry: './index.js',
+
+  output: {
+    path: __dirname + '/app',
+    filename: 'bundle.js'
+  }
+}
+```
+]
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## Killer app
+  ## Configuration
+  ## Webpack!
+]
+.right-column[
+```bash
+$ webpack
+Hash: f5fcfcfdf075ed09807e
+Version: webpack 1.12.2
+Time: 38ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  1.41 kB       0  [emitted]  main
+   [0] ./index.js 25 bytes {0} [built]
+```
+
+bundle.js
+```js
+/******/ (function(modules) { // webpackBootstrap
+/******/  // The module cache
+/******/  var installedModules = {};
+
+/******/  // The require function
+/******/  function __webpack_require__(moduleId) {
+
+/******/    // Check if module is in cache
+/******/    if(installedModules[moduleId])
+/******/      return installedModules[moduleId].exports;
+
+/******/    // Create a new module (and put it into the cache)
+/******/    var module = installedModules[moduleId] = {
+/******/      exports: {},
+/******/      id: moduleId,
+/******/      loaded: false
+/******/    };
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum eum consectetur modi ratione a doloremque sint alias magnam odit repellendus ex dolor suscipit, facilis quia minima, quas doloribus nesciunt ab!
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## Require
+]
+.right-column[
+
+app/index.js
+```js
+var yeah = require('./yeah')
+
+yeah()
+```
+
+app/yeah.js
+```js
+function yeah(msg) {
+  window.alert(msg)
+}
+
+module.exports = yeah
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+.left-column[
+  ## Require
+  ## npm i
+]
+.right-column[
+```bash
+$ npm install baconjs --save
+```
+
+app/index.js
+```js
+var Bacon = require('baconjs')
+
+Bacon.fromEvent(document.body, "click")
+  .onValue(function() {
+    window.alert("Oh yeah !")
+  })
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Loaders
+]
+.right-column[
+
+#### "Loaders are transformations that are applied on a resource file of your app."
+
+- html
+- <s>es6</s> es2015
+- css, style
+- less
+- sass
+- coffee(beurk)script
+- assets (fonts, images, ...)
+- jsx
+- jade
+- ...
+
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Loaders
+  ## Babel
+]
+.right-column[
+```bash
+$ npm i babel-loader --save-dev
+```
+
+webpack.config.js
+```js
+module.exports = {
+  context: __dirname + '/app',
+  entry: './index.js',
+  output: { path: __dirname + '/app', filename: 'bundle.js' },
+
+  module: {
+    loaders: [
+      { test: /\.js$/, loader: 'babel' }
+    ]
+  }
+}
+```
+
+app/index.js
+```js
+// Regarde maman je fais du es2015 !
+let message = 'Oh yeah'
+
+window.alert(message)
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Loaders
+  ## Babel
+  ## Html
+]
+.right-column[
+```bash
+$ npm i html-loader --save-dev
+```
+
+webpack.config.js
+```js
+module.exports = {
+  context: __dirname + '/app',
+  entry: './index.js',
+  output: { path: __dirname + '/app', filename: 'bundle.js' },
+
+  module: {
+    loaders: [
+      { test: /\.html$/, loader: 'babel' }
+    ]
+  }
+}
+```
+
+app/index.js
+```js
+var html = require('./toto.html')
+
+document.getElementsByTagName('h1')[0]
+  .innerHTML = html
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Loaders
+  ## Babel
+  ## Html
+  ## Image
+]
+.right-column[
+```bash
+$ npm i url-loader --save-dev
+```
+
+webpack.config.js
+```js
+module.exports = {
+  context: __dirname + '/app',
+  entry: './index.js',
+  output: { path: __dirname + '/app', filename: 'bundle.js' },
+
+  module: {
+    loaders: [
+      { test: /\.html$/, loader: 'babel' },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        loader: 'url-loader?limit=8192'
+      }
+    ]
+  }
+}
+```
+
+app/toto.html
+```html
+Toto
+<img src="mascotte.png">
+<img src="toto.png">
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Watch
+]
+.right-column[
+
+#### Compilation à la volée sur chaque changement d'une dépendance.
+
+```bash
+$ webpack --watch
+```
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Watch
+  ## Webserver
+]
+.right-column[
+
+#### Un serveur de dév !
+
+```bash
+$ npm i webpack-dev-server --save-dev
+$ webpack-dev-server
+```
+
+- Automatic Refresh
+
+- Compilation state informations
+
+- Hot Reload ("It’s like LiveReload for every module.")
+
+]
+
+---
+
+layout: false
+background-image: url(byteclubbg.jpg)
+
+.left-column[
+  ## Watch
+  ## Webserver
+  ## ...
+]
+.right-column[
+
+  #### Pleins d'autres features
+
+  - Plugins
+
+  - Chunks (lazyloading)
+
+  - Compression
+
+  - SourceMaps
+
+  - ?
+
+]
+
+---
+
+class: center, middle
+
+.smallimg[
+  ![t8g](tom_400x400.png)
+]
+### @t8g
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
